@@ -10,6 +10,7 @@
 
 -export([create_index/1
         ,create_index/2
+	,create_index/3
         ,stats_index/0
         ,stats_index/1
         ,stats_index/2
@@ -78,7 +79,12 @@ create_index(Index) ->
 %%--------------------------------------------------------------------
 -spec create_index(#erls_params{}, binary()) -> {ok, erlastic_success_result()} | {error, any()}.
 create_index(Params, Index) ->
-    erls_resource:put(Params, Index, [], [], [], Params#erls_params.http_client_options).
+    create_index(Params, Index, []).
+
+create_index(Params, Index, Settings)
+  when is_tuple(Settings); is_list(Settings); is_map(Settings) ->
+    erls_resource:put(Params, Index, [], [], erls_json:encode(Settings),
+		      Params#erls_params.http_client_options).
 
 %%--------------------------------------------------------------------
 %% @doc

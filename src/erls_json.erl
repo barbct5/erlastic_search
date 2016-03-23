@@ -1,7 +1,9 @@
 -module(erls_json).
 
 -export([encode/1
-        ,decode/1]).
+	,encode/2
+        ,decode/1
+	,decode/2]).
 
 -include("erlastic_search.hrl").
 
@@ -16,7 +18,10 @@
 %%--------------------------------------------------------------------
 -spec encode(erlastic_json()) -> binary().
 encode(Json) ->
-    ?ERLASTIC_SEARCH_JSON_MODULE:encode(Json).
+    encode(Json, []).
+
+encode(Json, Options) ->
+    ?ERLASTIC_SEARCH_JSON_MODULE:encode(Json, Options).
 
 %%--------------------------------------------------------------------
 %% @doc
@@ -27,4 +32,7 @@ encode(Json) ->
 %%--------------------------------------------------------------------
 -spec decode(binary()) -> erlastic_json().
 decode(BinaryJson) ->
-    ?ERLASTIC_SEARCH_JSON_MODULE:decode(BinaryJson).
+    decode(BinaryJson, [return_maps]).
+
+decode(BinaryJson, Options) ->
+    ?ERLASTIC_SEARCH_JSON_MODULE:decode(BinaryJson, Options).
